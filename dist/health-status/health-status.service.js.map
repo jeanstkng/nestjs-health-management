@@ -1,0 +1,1 @@
+{"version":3,"file":"health-status.service.js","sourceRoot":"","sources":["../../src/health-status/health-status.service.ts"],"names":[],"mappings":";;;;;;;;AAAA,2CAA4C;AAG5C,IAAa,mBAAmB,GAAhC,MAAa,mBAAmB;IAAhC;QACY,iBAAY,GAAG,EAAE,CAAC;IAM9B,CAAC;IAJG,kBAAkB;QACd,OAAO,IAAI,CAAC,YAAY,CAAC;IAC7B,CAAC;CAEJ,CAAA;AAPY,mBAAmB;IAD/B,mBAAU,EAAE;GACA,mBAAmB,CAO/B;AAPY,kDAAmB"}

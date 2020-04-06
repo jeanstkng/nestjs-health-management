@@ -6,4 +6,4 @@ var HealthStatusGender;
     HealthStatusGender["FEMALE"] = "FEMALE";
     HealthStatusGender["OTHER"] = "OTHER";
 })(HealthStatusGender = exports.HealthStatusGender || (exports.HealthStatusGender = {}));
-//# sourceMappingURL=health-status.model.js.map
+//# sourceMappingURL=health-status-gender.enum.js.map

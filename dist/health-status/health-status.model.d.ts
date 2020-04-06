@@ -1,10 +1,11 @@
 export interface HealthStatus {
+    id: string;
     fever: boolean;
     cough: boolean;
     shortnessOfBreath: boolean;
-    gender: HealthStatusGenres;
+    gender: HealthStatusGender;
 }
-export declare enum HealthStatusGenres {
+export declare enum HealthStatusGender {
     MALE = "MALE",
     FEMALE = "FEMALE",
     OTHER = "OTHER"

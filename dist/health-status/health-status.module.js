@@ -9,10 +9,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
 const health_status_controller_1 = require("./health-status.controller");
 const health_status_service_1 = require("./health-status.service");
+const typeorm_1 = require("@nestjs/typeorm");
+const health_status_repository_1 = require("./health-status.repository");
 let HealthStatusModule = class HealthStatusModule {
 };
 HealthStatusModule = __decorate([
     common_1.Module({
+        imports: [typeorm_1.TypeOrmModule.forFeature([health_status_repository_1.HealthStatusRepository])],
         controllers: [health_status_controller_1.HealthStatusController],
         providers: [health_status_service_1.HealthStatusService]
     })

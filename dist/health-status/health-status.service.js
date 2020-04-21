@@ -19,8 +19,8 @@ let HealthStatusService = class HealthStatusService {
     constructor(healthStatusRepository) {
         this.healthStatusRepository = healthStatusRepository;
     }
-    async getHealthStatus(filterDto) {
-        return this.healthStatusRepository.getHealthStatus(filterDto);
+    async getHealthStatus(filterDto, user) {
+        return this.healthStatusRepository.getHealthStatus(filterDto, user);
     }
     async getHealthStatusById(id) {
         const found = await this.healthStatusRepository.findOne(id);
@@ -29,8 +29,8 @@ let HealthStatusService = class HealthStatusService {
         }
         return found;
     }
-    async createHealthStatus(createHealthStatusDto) {
-        return this.healthStatusRepository.createHealthStatus(createHealthStatusDto);
+    async createHealthStatus(createHealthStatusDto, user) {
+        return this.healthStatusRepository.createHealthStatus(createHealthStatusDto, user);
     }
     async deleteHealthStatusById(id) {
         const deleted = await this.healthStatusRepository.delete(id);

@@ -18,18 +18,21 @@ const health_status_gender_enum_1 = require("./health-status-gender.enum");
 const create_health_status_dto_1 = require("./dto/create-health-status.dto");
 const get_health_status_filter_dto_1 = require("./dto/get-health-status-filter.dto");
 const health_status_gender_validation_pipe_1 = require("./pipes/health-status-gender-validation.pipe");
+const passport_1 = require("@nestjs/passport");
+const get_user_decorator_1 = require("../auth/get-user.decorator");
+const user_entity_1 = require("../auth/user.entity");
 let HealthStatusController = class HealthStatusController {
     constructor(healthStatusService) {
         this.healthStatusService = healthStatusService;
     }
-    getHealthStatus(filterDto) {
-        return this.healthStatusService.getHealthStatus(filterDto);
+    getHealthStatus(filterDto, user) {
+        return this.healthStatusService.getHealthStatus(filterDto, user);
     }
     getHealthStatusById(id) {
         return this.healthStatusService.getHealthStatusById(id);
     }
-    createHealthStatus(createHealthStatusDto) {
-        return this.healthStatusService.createHealthStatus(createHealthStatusDto);
+    createHealthStatus(createHealthStatusDto, user) {
+        return this.healthStatusService.createHealthStatus(createHealthStatusDto, user);
     }
     deleteHealthStatusById(id) {
         return this.healthStatusService.deleteHealthStatusById(id);
@@ -41,8 +44,10 @@ let HealthStatusController = class HealthStatusController {
 __decorate([
     common_1.Get(),
     __param(0, common_1.Query()),
+    __param(1, get_user_decorator_1.GetUser()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [get_health_status_filter_dto_1.GetHealthStatusFilterDto]),
+    __metadata("design:paramtypes", [get_health_status_filter_dto_1.GetHealthStatusFilterDto,
+        user_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], HealthStatusController.prototype, "getHealthStatus", null);
 __decorate([
@@ -56,8 +61,10 @@ __decorate([
     common_1.UsePipes(common_1.ValidationPipe),
     common_1.Post(),
     __param(0, common_1.Body()),
+    __param(1, get_user_decorator_1.GetUser()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_health_status_dto_1.CreateHealthStatusDto]),
+    __metadata("design:paramtypes", [create_health_status_dto_1.CreateHealthStatusDto,
+        user_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], HealthStatusController.prototype, "createHealthStatus", null);
 __decorate([
@@ -77,6 +84,7 @@ __decorate([
 ], HealthStatusController.prototype, "updateHealthStatusGenderById", null);
 HealthStatusController = __decorate([
     common_1.Controller('health-status'),
+    common_1.UseGuards(passport_1.AuthGuard()),
     __metadata("design:paramtypes", [health_status_service_1.HealthStatusService])
 ], HealthStatusController);
 exports.HealthStatusController = HealthStatusController;

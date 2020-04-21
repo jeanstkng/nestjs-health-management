@@ -5,6 +5,7 @@ import { GetHealthStatusFilterDto } from './dto/get-health-status-filter.dto';
 import { HealthStatusRepository } from './health-status.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { HealthStatus } from './health-status.entity';
+import { User } from '../auth/user.entity';
 
 @Injectable()
 export class HealthStatusService {
@@ -13,8 +14,11 @@ export class HealthStatusService {
         private healthStatusRepository: HealthStatusRepository
     ) {}
 
-    async getHealthStatus(filterDto: GetHealthStatusFilterDto): Promise<HealthStatus[]> {
-        return this.healthStatusRepository.getHealthStatus(filterDto);
+    async getHealthStatus(
+        filterDto: GetHealthStatusFilterDto,
+        user: User    
+    ): Promise<HealthStatus[]> {
+        return this.healthStatusRepository.getHealthStatus(filterDto, user);
     }
 
     async getHealthStatusById(id: number): Promise<HealthStatus> {
@@ -25,8 +29,11 @@ export class HealthStatusService {
         return found;
     }
 
-    async createHealthStatus(createHealthStatusDto: CreateHealthStatusDto): Promise<HealthStatus> {
-        return this.healthStatusRepository.createHealthStatus(createHealthStatusDto);
+    async createHealthStatus(
+        createHealthStatusDto: CreateHealthStatusDto, 
+        user: User
+    ): Promise<HealthStatus> {
+        return this.healthStatusRepository.createHealthStatus(createHealthStatusDto, user);
     }
 
     async deleteHealthStatusById(id: number): Promise<number> {

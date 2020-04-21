@@ -10,40 +10,37 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
-const health_status_gender_enum_1 = require("./health-status-gender.enum");
-const user_entity_1 = require("../auth/user.entity");
-let HealthStatus = class HealthStatus extends typeorm_1.BaseEntity {
+const bcrypt = require("bcrypt");
+const health_status_entity_1 = require("../health-status/health-status.entity");
+let User = class User extends typeorm_1.BaseEntity {
+    async validatePassword(password) {
+        const hash = await bcrypt.hash(password, this.salt);
+        return hash === this.password;
+    }
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
-], HealthStatus.prototype, "id", void 0);
-__decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", Boolean)
-], HealthStatus.prototype, "cough", void 0);
-__decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", Boolean)
-], HealthStatus.prototype, "fever", void 0);
-__decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", Boolean)
-], HealthStatus.prototype, "shortnessOfBreath", void 0);
+], User.prototype, "id", void 0);
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
-], HealthStatus.prototype, "gender", void 0);
-__decorate([
-    typeorm_1.ManyToOne(type => user_entity_1.User, user => user.healthStatus, { eager: false }),
-    __metadata("design:type", user_entity_1.User)
-], HealthStatus.prototype, "user", void 0);
+], User.prototype, "username", void 0);
 __decorate([
     typeorm_1.Column(),
-    __metadata("design:type", Number)
-], HealthStatus.prototype, "userId", void 0);
-HealthStatus = __decorate([
-    typeorm_1.Entity()
-], HealthStatus);
-exports.HealthStatus = HealthStatus;
-//# sourceMappingURL=health-status.entity.js.map
+    __metadata("design:type", String)
+], User.prototype, "password", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], User.prototype, "salt", void 0);
+__decorate([
+    typeorm_1.OneToMany(type => health_status_entity_1.HealthStatus, healthStatus => healthStatus.user, { eager: true }),
+    __metadata("design:type", Array)
+], User.prototype, "healthStatus", void 0);
+User = __decorate([
+    typeorm_1.Entity(),
+    typeorm_1.Unique(['username'])
+], User);
+exports.User = User;
+//# sourceMappingURL=user.entity.js.map

@@ -10,9 +10,10 @@ const typeorm_1 = require("typeorm");
 const health_status_entity_1 = require("./health-status.entity");
 const health_status_gender_enum_1 = require("./health-status-gender.enum");
 let HealthStatusRepository = class HealthStatusRepository extends typeorm_1.Repository {
-    async getHealthStatus(filterDto) {
+    async getHealthStatus(filterDto, user) {
         const { search, gender } = filterDto;
         const query = this.createQueryBuilder('health-status');
+        query.where('health-status.userId = :userId', { userId: user.id });
         if (gender) {
             query.andWhere('health-status.gender = :gender', { gender });
         }
@@ -22,14 +23,16 @@ let HealthStatusRepository = class HealthStatusRepository extends typeorm_1.Repo
         const healthStatus = await query.getMany();
         return healthStatus;
     }
-    async createHealthStatus(createHealthStatusDto) {
+    async createHealthStatus(createHealthStatusDto, user) {
         const { fever, cough, shortnessOfBreath } = createHealthStatusDto;
         const healthStatus = new health_status_entity_1.HealthStatus();
         healthStatus.cough = cough;
         healthStatus.fever = fever;
         healthStatus.shortnessOfBreath = shortnessOfBreath;
         healthStatus.gender = health_status_gender_enum_1.HealthStatusGender.MALE;
+        healthStatus.user = user;
         await healthStatus.save();
+        delete healthStatus.user;
         return healthStatus;
     }
 };

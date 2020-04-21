@@ -1,19 +1,26 @@
-import { Controller, Get, Post, Body, Param, Delete, Patch, Query, UsePipes, ValidationPipe, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Patch, Query, UsePipes, ValidationPipe, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { HealthStatusService } from './health-status.service';
 import { HealthStatusGender } from './health-status-gender.enum';
 import { CreateHealthStatusDto } from './dto/create-health-status.dto';
 import { GetHealthStatusFilterDto } from './dto/get-health-status-filter.dto';
 import { HealthStatusGenderValidationPipe } from './pipes/health-status-gender-validation.pipe';
 import { HealthStatus } from './health-status.entity';
+import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from '../auth/get-user.decorator';
+import { User } from '../auth/user.entity';
 
 @Controller('health-status')
+@UseGuards(AuthGuard())
 export class HealthStatusController {
 
     constructor(private healthStatusService: HealthStatusService) {}
 
     @Get()
-    getHealthStatus(@Query() filterDto: GetHealthStatusFilterDto): Promise<HealthStatus[]> {
-        return this.healthStatusService.getHealthStatus(filterDto);
+    getHealthStatus(
+        @Query() filterDto: GetHealthStatusFilterDto,
+        @GetUser() user: User
+    ): Promise<HealthStatus[]> {
+        return this.healthStatusService.getHealthStatus(filterDto, user);
     }
 
     @Get('/:id')
@@ -23,8 +30,11 @@ export class HealthStatusController {
 
     @UsePipes(ValidationPipe)
     @Post()
-    createHealthStatus(@Body() createHealthStatusDto: CreateHealthStatusDto): Promise<HealthStatus> {
-        return this.healthStatusService.createHealthStatus(createHealthStatusDto);
+    createHealthStatus(
+        @Body() createHealthStatusDto: CreateHealthStatusDto,
+        @GetUser() user: User
+    ): Promise<HealthStatus> {
+        return this.healthStatusService.createHealthStatus(createHealthStatusDto, user);
     }
 
     @Delete('/:id')

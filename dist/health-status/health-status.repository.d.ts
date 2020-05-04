@@ -4,6 +4,7 @@ import { CreateHealthStatusDto } from './dto/create-health-status.dto';
 import { GetHealthStatusFilterDto } from './dto/get-health-status-filter.dto';
 import { User } from '../auth/user.entity';
 export declare class HealthStatusRepository extends Repository<HealthStatus> {
+    private logger;
     getHealthStatus(filterDto: GetHealthStatusFilterDto, user: User): Promise<HealthStatus[]>;
     createHealthStatus(createHealthStatusDto: CreateHealthStatusDto, user: User): Promise<HealthStatus>;
 }

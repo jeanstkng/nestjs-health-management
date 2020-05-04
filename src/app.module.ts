@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     TypeOrmModule.forRoot(typeOrmConfig),
     HealthStatusModule,
-    AuthModule]
+    AuthModule
+  ]
 })
 export class AppModule {}

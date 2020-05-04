@@ -22,8 +22,8 @@ let HealthStatusService = class HealthStatusService {
     async getHealthStatus(filterDto, user) {
         return this.healthStatusRepository.getHealthStatus(filterDto, user);
     }
-    async getHealthStatusById(id) {
-        const found = await this.healthStatusRepository.findOne(id);
+    async getHealthStatusById(id, user) {
+        const found = await this.healthStatusRepository.findOne({ where: { id, userId: user.id } });
         if (!found) {
             throw new common_1.NotFoundException(`Health Status with ID "${id}" not found.`);
         }
@@ -32,15 +32,15 @@ let HealthStatusService = class HealthStatusService {
     async createHealthStatus(createHealthStatusDto, user) {
         return this.healthStatusRepository.createHealthStatus(createHealthStatusDto, user);
     }
-    async deleteHealthStatusById(id) {
-        const deleted = await this.healthStatusRepository.delete(id);
+    async deleteHealthStatusById(id, user) {
+        const deleted = await this.healthStatusRepository.delete({ id, userId: user.id });
         if (deleted.affected === 0) {
             throw new common_1.NotFoundException(`Health Status with ID "${id}" not found.`);
         }
         return id;
     }
-    async updateHealthStatusGenderById(id, gender) {
-        const healthStatus = await this.getHealthStatusById(id);
+    async updateHealthStatusGenderById(id, gender, user) {
+        const healthStatus = await this.getHealthStatusById(id, user);
         healthStatus.gender = gender;
         await healthStatus.save();
         return healthStatus;

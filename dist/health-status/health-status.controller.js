@@ -24,21 +24,24 @@ const user_entity_1 = require("../auth/user.entity");
 let HealthStatusController = class HealthStatusController {
     constructor(healthStatusService) {
         this.healthStatusService = healthStatusService;
+        this.logger = new common_1.Logger('HealthStatusController');
     }
     getHealthStatus(filterDto, user) {
+        this.logger.verbose(` User "${user.username}" retrieving all health status. Filters: ${JSON.stringify(filterDto)}`);
         return this.healthStatusService.getHealthStatus(filterDto, user);
     }
-    getHealthStatusById(id) {
-        return this.healthStatusService.getHealthStatusById(id);
+    getHealthStatusById(id, user) {
+        return this.healthStatusService.getHealthStatusById(id, user);
     }
     createHealthStatus(createHealthStatusDto, user) {
+        this.logger.verbose(`User "${user.username}" creating a new health status. Data: ${JSON.stringify(createHealthStatusDto)}`);
         return this.healthStatusService.createHealthStatus(createHealthStatusDto, user);
     }
-    deleteHealthStatusById(id) {
-        return this.healthStatusService.deleteHealthStatusById(id);
+    deleteHealthStatusById(id, user) {
+        return this.healthStatusService.deleteHealthStatusById(id, user);
     }
-    updateHealthStatusGenderById(id, gender) {
-        return this.healthStatusService.updateHealthStatusGenderById(id, gender);
+    updateHealthStatusGenderById(id, gender, user) {
+        return this.healthStatusService.updateHealthStatusGenderById(id, gender, user);
     }
 };
 __decorate([
@@ -53,8 +56,9 @@ __decorate([
 __decorate([
     common_1.Get('/:id'),
     __param(0, common_1.Param('id', common_1.ParseIntPipe)),
+    __param(1, get_user_decorator_1.GetUser()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [Number, user_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], HealthStatusController.prototype, "getHealthStatusById", null);
 __decorate([
@@ -70,16 +74,18 @@ __decorate([
 __decorate([
     common_1.Delete('/:id'),
     __param(0, common_1.Param('id', common_1.ParseIntPipe)),
+    __param(1, get_user_decorator_1.GetUser()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [Number, user_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], HealthStatusController.prototype, "deleteHealthStatusById", null);
 __decorate([
     common_1.Patch('/:id/gender'),
     __param(0, common_1.Param('id', common_1.ParseIntPipe)),
     __param(1, common_1.Body('gender', health_status_gender_validation_pipe_1.HealthStatusGenderValidationPipe)),
+    __param(2, get_user_decorator_1.GetUser()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, String]),
+    __metadata("design:paramtypes", [Number, String, user_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], HealthStatusController.prototype, "updateHealthStatusGenderById", null);
 HealthStatusController = __decorate([
